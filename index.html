@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shir Hakim - QA Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alef:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Alef', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #fafafa;
+            color: #2c2c2c;
+            line-height: 1.6;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* Negative Mode */
+        body.negative-mode {
+            background-color: #2c2c2c;
+            color: #fafafa;
+        }
+
+        body.negative-mode header {
+            background-color: rgba(44, 44, 44, 0.95);
+            border-bottom-color: #3c3c3c;
+        }
+
+        body.negative-mode .logo-btn,
+        body.negative-mode .header-title,
+        body.negative-mode .contact-btn {
+            color: #fafafa;
+            border-color: #fafafa;
+        }
+
+        body.negative-mode .logo-btn:hover {
+            background-color: #3c3c3c;
+        }
+
+        body.negative-mode .contact-btn:hover {
+            background-color: #fafafa;
+            color: #2c2c2c;
+        }
+
+        body.negative-mode .negative-btn {
+            background-color: #fafafa;
+            color: #2c2c2c;
+        }
+
+        body.negative-mode .negative-btn:hover {
+            background-color: #e8e8e8;
+        }
+
+        body.negative-mode .side-panel {
+            background-color: #1c1c1c;
+        }
+
+        body.negative-mode .close-panel,
+        body.negative-mode .close-modal,
+        body.negative-mode .close-work-modal {
+            color: #b0b0b0;
+        }
+
+        body.negative-mode .close-panel:hover,
+        body.negative-mode .close-modal:hover,
+        body.negative-mode .close-work-modal:hover {
+            color: #fafafa;
+        }
+
+        body.negative-mode .profile-section h1,
+        body.negative-mode .profile-section .role {
+            color: #fafafa;
+        }
+
+        body.negative-mode .profile-section h3 {
+            color: #fafafa;
+        }
+
+        body.negative-mode .profile-section p {
+            color: #b0b0b0;
+        }
+
+        body.negative-mode .profile-section p[style*="font-weight: 600"] {
+            color: #fafafa;
+        }
+
+        body.negative-mode .profile-section p[style*="font-weight: 600"][style*="margin-bottom: 5px"] {
+            color: #fafafa !important;
+        }
+
+        body.negative-mode .modal-content {
+            background-color: #1c1c1c;
+        }
+
+        body.negative-mode .contact-info h2 {
+            color: #fafafa;
+        }
+
+        body.negative-mode .contact-item a {
+            color: #fafafa;
+        }
+
+        body.negative-mode .contact-item a:hover {
+            color: #b0b0b0;
+        }
+
+        body.negative-mode .work-item {
+            background-color: #1c1c1c;
+            border-color: #3c3c3c;
+        }
+
+        body.negative-mode .work-title {
+            color: #fafafa;
+        }
+
+        body.negative-mode .work-description {
+            color: #b0b0b0;
+        }
+
+        body.negative-mode .work-modal-content {
+            background-color: #1c1c1c;
+        }
+
+        body.negative-mode .work-modal-header {
+            background-color: #1c1c1c;
+            border-bottom-color: #3c3c3c;
+        }
+
+        body.negative-mode .work-modal-header h2 {
+            color: #fafafa;
+        }
+
+        body.negative-mode .work-modal-body p,
+        body.negative-mode .work-modal-body ul {
+            color: #b0b0b0;
+        }
+
+        body.negative-mode .work-modal-body strong {
+            color: #fafafa;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(250, 250, 250, 0.95);
+            padding: 20px 40px;
+            z-index: 1000;
+            border-bottom: 1px solid #e0e0e0;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo-btn {
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            color: #2c2c2c;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .logo-btn:hover {
+            background-color: #e8e8e8;
+        }
+
+        .header-title {
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: #6c6c6c;
+        }
+
+        .contact-btn {
+            background: none;
+            border: 1px solid #2c2c2c;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            color: #2c2c2c;
+            padding: 8px 24px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-btn:hover {
+            background-color: #2c2c2c;
+            color: #fafafa;
+        }
+
+        /* Negative Button */
+        .negative-btn {
+            background-color: #2c2c2c;
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            color: #fafafa;
+            padding: 8px 24px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            margin-left: 10px;
+        }
+
+        .negative-btn:hover {
+            background-color: #1c1c1c;
+        }
+
+        /* Side Panel */
+        .side-panel {
+            position: fixed;
+            top: 0;
+            left: -400px;
+            width: 400px;
+            height: 100vh;
+            background-color: white;
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .side-panel.active {
+            left: 0;
+        }
+
+        .side-panel-content {
+            padding: 60px 40px;
+        }
+
+        .close-panel {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #6c6c6c;
+            transition: color 0.3s ease;
+        }
+
+        .close-panel:hover {
+            color: #2c2c2c;
+        }
+
+        .profile-section h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .profile-section p {
+            color: #6c6c6c;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .profile-section .role {
+            font-size: 18px;
+            color: #2c2c2c;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .profile-section h3 {
+            color: #2c2c2c;
+            font-weight: 700;
+        }
+
+        .profile-section .year-title {
+            color: #2c2c2c;
+        }
+
+        body.negative-mode .profile-section .year-title {
+            color: #fafafa;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 3000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #6c6c6c;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: #2c2c2c;
+        }
+
+        .contact-info h2 {
+            font-size: 28px;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .contact-item i {
+            width: 30px;
+            color: #2c2c2c;
+            font-size: 18px;
+        }
+
+        .contact-item a {
+            color: #2c2c2c;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item a:hover {
+            color: #6c6c6c;
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 100px;
+            padding: 40px;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Work Grid */
+        .work-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .work-item {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e0e0e0;
+        }
+
+        .work-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .work-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .work-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .work-info {
+            padding: 25px;
+        }
+
+        .work-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c2c2c;
+        }
+
+        .work-description {
+            font-size: 14px;
+            color: #6c6c6c;
+            line-height: 1.6;
+        }
+
+        /* Work Modal */
+        .work-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 4000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .work-modal.active {
+            display: flex;
+            opacity: 1;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .work-modal-content {
+            background-color: white;
+            border-radius: 8px;
+            max-width: 1200px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .work-modal.active .work-modal-content {
+            transform: scale(1);
+        }
+
+        .work-modal-header {
+            position: sticky;
+            top: 0;
+            background-color: white;
+            padding: 30px 40px;
+            border-bottom: 1px solid #e0e0e0;
+            z-index: 10;
+        }
+
+        .work-modal-header h2 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #2c2c2c;
+        }
+
+        .close-work-modal {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #6c6c6c;
+            transition: color 0.3s ease;
+        }
+
+        .close-work-modal:hover {
+            color: #2c2c2c;
+        }
+
+        .work-modal-body {
+            padding: 40px;
+        }
+
+        .work-modal-body iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .work-modal-body img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .work-modal-body img:hover {
+            opacity: 0.9;
+        }
+
+        /* Image Fullscreen Viewer */
+        .image-fullscreen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-fullscreen.active {
+            display: flex;
+            opacity: 1;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .image-fullscreen img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            cursor: default;
+        }
+
+        .close-fullscreen {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 28px;
+            cursor: pointer;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10001;
+        }
+
+        .close-fullscreen:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .fullscreen-hint {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            pointer-events: none;
+        }
+
+        /* Overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1500;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+
+            .header-title {
+                display: none;
+            }
+
+            .header-content > div {
+                flex-wrap: wrap;
+            }
+
+            .negative-btn {
+                margin-left: 0;
+                margin-top: 5px;
+            }
+
+            main {
+                padding: 20px;
+                margin-top: 80px;
+            }
+
+            .work-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .side-panel {
+                width: 100%;
+                left: -100%;
+            }
+
+            .modal-content {
+                padding: 30px 20px;
+            }
+
+            .work-modal-content {
+                max-height: 100vh;
+                border-radius: 0;
+            }
+
+            .work-modal-header {
+                padding: 20px;
+            }
+
+            .work-modal-body {
+                padding: 20px;
+            }
+
+            .close-work-modal {
+                top: 20px;
+                right: 20px;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .work-item {
+            animation: fadeIn 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .work-item:nth-child(1) { animation-delay: 0.1s; }
+        .work-item:nth-child(2) { animation-delay: 0.2s; }
+        .work-item:nth-child(3) { animation-delay: 0.3s; }
+        .work-item:nth-child(4) { animation-delay: 0.4s; }
+        .work-item:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <button class="logo-btn" onclick="toggleSidePanel()">Shir Hakim</button>
+            <div class="header-title">Selected Works</div>
+            <div style="display: flex; gap: 10px;">
+                <button class="contact-btn" onclick="toggleContactModal()">Contact</button>
+                <button class="negative-btn" onclick="toggleNegativeMode()">Negative</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Side Panel -->
+    <div class="side-panel" id="sidePanel">
+        <button class="close-panel" onclick="toggleSidePanel()">×</button>
+        <div class="side-panel-content">
+            <div class="profile-section">
+                <h1>Shir Hakim</h1>
+                <p class="role">QA Engineer & Test Case Designer</p>
+                
+                <h3 style="font-size: 20px; margin-top: 30px; margin-bottom: 15px; font-weight: 600;">Work Experience</h3>
+                <div style="margin-bottom: 20px;">
+                    <p class="year-title" style="font-weight: 600; margin-bottom: 5px;">2022 - Present | Driivz, QA Engineer</p>
+                    <p style="line-height: 1.7;">EV charging solutions. Agile, manual testing (Web & Mobile), Linux, X-Ray, Jira, SQL.</p>
+                </div>
+
+                <h3 style="font-size: 20px; margin-top: 30px; margin-bottom: 15px; font-weight: 600;">Education</h3>
+                <div style="margin-bottom: 15px;">
+                    <p class="year-title" style="font-weight: 600; margin-bottom: 5px;">2021 | HackerU, QA Course</p>
+                    <p style="line-height: 1.7;">Testing methodologies, QC, TestRail, SQL.</p>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <p class="year-title" style="font-weight: 600; margin-bottom: 5px;">2021 | Kibbutzim College, B.Ed.</p>
+                    <p style="line-height: 1.7;">Education, Fine Arts & Communications.</p>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <p class="year-title" style="font-weight: 600; margin-bottom: 5px;">2020 | She Codes</p>
+                    <p style="line-height: 1.7;">HTML, CSS, JavaScript.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay" onclick="closeAll()"></div>
+
+    <!-- Contact Modal -->
+    <div class="modal" id="contactModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="toggleContactModal()">×</button>
+            <div class="contact-info">
+                <h2>Get in Touch</h2>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <a href="tel:0504082260" target="_blank">050-408-2260</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <a href="mailto:shirha26@gmail.com" target="_blank">shirha26@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-linkedin"></i>
+                    <a href="https://www.linkedin.com/in/shir-hakim" target="_blank">linkedin.com/in/shir-hakim</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-github"></i>
+                    <a href="https://github.com/shirha26" target="_blank">github.com/shirha26</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Work Modal -->
+    <div class="work-modal" id="workModal">
+        <div class="work-modal-content">
+            <div class="work-modal-header">
+                <h2 id="workModalTitle"></h2>
+                <button class="close-work-modal" onclick="closeWorkModal()">×</button>
+            </div>
+            <div class="work-modal-body" id="workModalBody">
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Fullscreen Viewer -->
+    <div class="image-fullscreen" id="imageFullscreen" onclick="closeFullscreenImage(event)">
+        <button class="close-fullscreen" onclick="closeFullscreenImage(event)">×</button>
+        <img id="fullscreenImg" src="" alt="">
+        <div class="fullscreen-hint">Click anywhere or press ESC to close</div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <div class="work-grid">
+            <!-- Work Item 1: Meter Value Tab Tests -->
+            <div class="work-item" onclick="openWork('meter-value')">
+                <div class="work-image">
+                    <img src="meterValue.png" alt="Meter Value Tab Tests">
+                </div>
+                <div class="work-info">
+                    <div class="work-title">Meter Value Tab Tests</div>
+                    <div class="work-description">Comprehensive test plan for meter values tab including filters, graphs, tooltips, and responsive behavior. Sprint 53 testing documentation.</div>
+                </div>
+            </div>
+
+            <!-- Work Item 2: Simulated Flow Diagram -->
+            <div class="work-item" onclick="openWork('simulated-flow')">
+                <div class="work-image">
+                    <img src="Diagram-Simulated flow.png" alt="Simulated Flow Diagram">
+                </div>
+                <div class="work-info">
+                    <div class="work-title">Simulated Flow Diagram</div>
+                    <div class="work-description">Process flow diagram illustrating the simulator toggle states, transaction handling, and charging session parameters.</div>
+                </div>
+            </div>
+
+            <!-- Work Item 3: VPP One-Step Diagram -->
+            <div class="work-item" onclick="openWork('vpp-diagram')">
+                <div class="work-image">
+                    <img src="VPPDiagram-OneStep.png" alt="VPP One-Step Diagram">
+                </div>
+                <div class="work-info">
+                    <div class="work-title">VPP One-Step Diagram</div>
+                    <div class="work-description">Detailed workflow diagram for Virtual Power Plant (VPP) algorithm commitment process, including BZ#1 stations, frequency simulation, and grid management.</div>
+                </div>
+            </div>
+
+            <!-- Work Item 4: Configuration Test Scenarios -->
+            <div class="work-item" onclick="openWork('config-scenarios')">
+                <div class="work-image">
+                    <img src="Configurations_Test_scenarios.png" alt="Configuration Test Scenarios">
+                </div>
+                <div class="work-info">
+                    <div class="work-title">Configurations Test Scenarios</div>
+                    <div class="work-description">Comprehensive test matrix covering registration flow and profile page scenarios across multiple configuration combinations.</div>
+                </div>
+            </div>
+
+            <!-- Work Item 5: Energy Planning Calculator -->
+            <div class="work-item" onclick="openWork('energy-planning')">
+                <div class="work-image">
+                    <img src="energyPlanning.png" alt="Configuration Test Scenarios">
+                </div>
+                <div class="work-info">
+                    <div class="work-title">Energy Planning Calculator</div>
+                    <div class="work-description">Interactive energy planning calculator tool for EV charging infrastructure optimization and capacity planning.</div>
+                </div>
+            </div>
+
+            <!-- Work Item 6: MultiGender Hebrew - Course Project -->
+            <div class="work-item" onclick="openWork('multigender-hebrew')">
+                <div class="work-image">
+                    <img src="MultiGenderHebrew.png" alt="Configuration Test Scenarios">
+                </div>
+                <div class="work-info">
+                    <div class="work-title">MultiGender Hebrew <span style="font-size: 12px; color: #6c6c6c;">(Course Project)</span></div>
+                    <div class="work-description">QA testing documentation and test cases for the MultiGender Hebrew website. Comprehensive testing project from QA course.</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Toggle Negative Mode
+        function toggleNegativeMode() {
+            document.body.classList.toggle('negative-mode');
+            // Save preference to localStorage
+            if (document.body.classList.contains('negative-mode')) {
+                localStorage.setItem('negativeMode', 'true');
+            } else {
+                localStorage.setItem('negativeMode', 'false');
+            }
+        }
+
+        // Load negative mode preference on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            if (localStorage.getItem('negativeMode') === 'true') {
+                document.body.classList.add('negative-mode');
+            }
+        });
+
+        // Toggle Side Panel
+        function toggleSidePanel() {
+            const panel = document.getElementById('sidePanel');
+            const overlay = document.getElementById('overlay');
+            panel.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        // Toggle Contact Modal
+        function toggleContactModal() {
+            const modal = document.getElementById('contactModal');
+            const overlay = document.getElementById('overlay');
+            modal.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        // Close All
+        function closeAll() {
+            document.getElementById('sidePanel').classList.remove('active');
+            document.getElementById('contactModal').classList.remove('active');
+            document.getElementById('workModal').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        }
+
+        // Open Work Modal
+        function openWork(workId) {
+            const modal = document.getElementById('workModal');
+            const overlay = document.getElementById('overlay');
+            const title = document.getElementById('workModalTitle');
+            const body = document.getElementById('workModalBody');
+            
+            const works = {
+                'meter-value': {
+                    title: 'Meter Value Tab Tests',
+                    content: `
+                        <iframe src="meterValueTabTests.pdf"></iframe>
+                    `
+                },
+                'simulated-flow': {
+                    title: 'Simulated Flow Diagram',
+                    content: `
+                        <img src="Diagram-Simulated flow.png" alt="Simulated Flow Diagram" onclick="openFullscreenImage('Diagram-Simulated flow.png')">
+                        <p style="color: #6c6c6c; margin-top: 20px;">💡 <strong>Tip:</strong> Click on the image to view in fullscreen</p>
+                        <p style="color: #6c6c6c; margin-top: 15px;">This diagram illustrates the complete flow of the simulator toggle functionality, including:</p>
+                        <ul style="color: #6c6c6c; margin: 15px 0; padding-left: 20px;">
+                            <li>Connected vehicle type detection (REAL vs SIMULATED vs NONE)</li>
+                            <li>Charging session parameter configuration</li>
+                            <li>Transaction simulator state management</li>
+                            <li>API integration for simulated profile retrieval</li>
+                        </ul>
+                    `
+                },
+                'vpp-diagram': {
+                    title: 'VPP One-Step Diagram',
+                    content: `
+                        <img src="VPPDiagram-OneStep.png" alt="VPP One-Step Diagram" onclick="openFullscreenImage('VPPDiagram-OneStep.png')">
+                        <p style="color: #6c6c6c; margin-top: 20px;">💡 <strong>Tip:</strong> Click on the image to view in fullscreen</p>
+                        <p style="color: #6c6c6c; margin-top: 15px;">Comprehensive workflow for Virtual Power Plant algorithm demonstrating:</p>
+                        <ul style="color: #6c6c6c; margin: 15px 0; padding-left: 20px;">
+                            <li>BZ#1 commitment simulation with 100 stations</li>
+                            <li>Frequency simulator integration (50Hz)</li>
+                            <li>TxProfile management and grid lock coordination</li>
+                            <li>Multi-phase commitment lifecycle (READY → PLANNING → EXECUTING → MONITORING → RESTORING → DEACTIVATED → FULFILLED)</li>
+                            <li>Configuration management and database interactions</li>
+                        </ul>
+                    `
+                },
+                'config-scenarios': {
+                    title: 'Configurations Test Scenarios',
+                    content: `
+                        <img src="Configurations_Test_scenarios.png" alt="Configuration Test Scenarios" onclick="openFullscreenImage('Configurations_Test_scenarios.png')">
+                        <p style="color: #6c6c6c; margin-top: 20px;"><strong>💡 Tip:</strong> Click on the image to view in fullscreen and see all details clearly</p>
+                        <p style="color: #6c6c6c; margin-top: 15px;">Comprehensive test matrix covering multiple scenarios:</p>
+                        <ul style="color: #6c6c6c; margin: 15px 0; padding-left: 20px;">
+                            <li><strong>Registration Flow:</strong> Testing various combinations of shipping/billing address configurations</li>
+                            <li><strong>Profile Page:</strong> Validation of address display and mandatory field requirements</li>
+                            <li><strong>16 Test Scenarios:</strong> From DMS-10502 to DMS-10503, covering TRUE/FALSE combinations</li>
+                            <li><strong>Expected Results:</strong> Clear documentation of address behavior and validation rules</li>
+                        </ul>
+                    `
+                },
+                'energy-planning': {
+                    title: 'Energy Planning Calculator',
+                    content: `
+                        <iframe src="energyPlanningCalculator.html" style="height: 700px;"></iframe>
+                    `
+                },
+                'multigender-hebrew': {
+                    title: 'MultiGender Hebrew - Course Project',
+                    content: `
+                        <iframe src="MultiGenderHebrew.pdf"></iframe>
+                    `
+                }
+            };
+
+            const work = works[workId];
+            if (work) {
+                title.textContent = work.title;
+                body.innerHTML = work.content;
+                modal.classList.add('active');
+                overlay.classList.add('active');
+            }
+        }
+
+        // Open image in fullscreen
+        function openFullscreenImage(imgSrc) {
+            const fullscreen = document.getElementById('imageFullscreen');
+            const fullscreenImg = document.getElementById('fullscreenImg');
+            fullscreenImg.src = imgSrc;
+            fullscreen.classList.add('active');
+        }
+
+        // Close fullscreen image
+        function closeFullscreenImage(event) {
+            if (event) {
+                event.stopPropagation();
+            }
+            const fullscreen = document.getElementById('imageFullscreen');
+            fullscreen.classList.remove('active');
+        }
+
+        // Close Work Modal
+        function closeWorkModal() {
+            document.getElementById('workModal').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        }
+
+        // Close modals on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeAll();
+                closeWorkModal();
+                closeFullscreenImage();
+            }
+        });
+    </script>
+</body>
+</html>

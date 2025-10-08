@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Priority Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Alef', sans-serif;
+            background-color: #f5f5f5;
+            color: #1a1a1a;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: #1a1a1a;
+            font-weight: 400;
+        }
+
+        .drivers-section {
+            margin-bottom: 40px;
+        }
+
+        .driver-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr auto;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding: 20px;
+            background-color: #fafafa;
+            border: 1px solid #e0e0e0;
+            align-items: center;
+        }
+
+        .driver-row:hover {
+            border-color: #8b1a1a;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+            font-weight: 400;
+        }
+
+        input, select {
+            padding: 10px;
+            border: 1px solid #d0d0d0;
+            background-color: #ffffff;
+            font-family: 'Alef', sans-serif;
+            font-size: 14px;
+            color: #1a1a1a;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #8b1a1a;
+        }
+
+        input:hover, select:hover {
+            border-color: #8b1a1a;
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        .license-input {
+            width: 100%;
+        }
+
+        .suggestions-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: #ffffff;
+            border: 1px solid #d0d0d0;
+            border-top: none;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+
+        .suggestions-dropdown.active {
+            display: block;
+        }
+
+        .suggestion-item {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.2s;
+        }
+
+        .suggestion-item:hover {
+            background-color: #fff5f5;
+            color: #8b1a1a;
+        }
+
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .delete-btn {
+            background-color: transparent;
+            border: 1px solid #d0d0d0;
+            color: #666;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-family: 'Alef', sans-serif;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .delete-btn:hover {
+            background-color: #8b1a1a;
+            color: #ffffff;
+            border-color: #8b1a1a;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            font-family: 'Alef', sans-serif;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #8b1a1a;
+        }
+
+        .btn-secondary {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            border: 1px solid #d0d0d0;
+        }
+
+        .btn-secondary:hover {
+            background-color: #8b1a1a;
+            color: #ffffff;
+            border-color: #8b1a1a;
+        }
+
+        .results-section {
+            margin-top: 40px;
+            display: none;
+        }
+
+        .results-section.active {
+            display: block;
+        }
+
+        .results-title {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+            font-weight: 400;
+        }
+
+        .result-item {
+            padding: 20px;
+            margin-bottom: 15px;
+            background-color: #fafafa;
+            border-right: 4px solid #1a1a1a;
+        }
+
+        .result-item.top-priority {
+            background-color: #fff5f5;
+            border-right-color: #8b1a1a;
+        }
+
+        .result-driver {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+        }
+
+        .result-details {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .result-priority {
+            font-size: 18px;
+            color: #8b1a1a;
+            margin-top: 8px;
+        }
+
+        .error-message {
+            color: #8b1a1a;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .driver-info {
+            font-size: 12px;
+            color: #999;
+            margin-top: 3px;
+        }
+
+        @media (max-width: 768px) {
+            .driver-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Alef:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Driver Priority Calculator</h1>
+
+        <div class="drivers-section" id="driversSection">
+            <div class="driver-row" data-driver-id="1">
+                <div class="input-group">
+                    <label>License Plate Number</label>
+                    <input type="text" class="license-input" placeholder="Type to search..." oninput="filterSuggestions(this)" onfocus="showSuggestions(this)" onblur="hideSuggestions(this)">
+                    <div class="suggestions-dropdown"></div>
+                    <div class="driver-info"></div>
+                </div>
+                <div class="input-group">
+                    <label>Required Energy (kW)</label>
+                    <input type="number" class="energy-input" step="0.1" min="0" placeholder="0">
+                </div>
+                <div class="input-group">
+                    <label>Start Time</label>
+                    <input type="time" class="start-time">
+                </div>
+                <div class="input-group">
+                    <label>End Time</label>
+                    <input type="time" class="end-time">
+                </div>
+                <button class="delete-btn" onclick="deleteDriver(this)" disabled>Delete</button>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="calculate()">Calculate</button>
+            <button class="btn btn-secondary" onclick="addDriver()">Add Driver</button>
+            <button class="btn btn-secondary" onclick="clearAll()">Clear All</button>
+        </div>
+
+        <div class="results-section" id="resultsSection">
+            <h2 class="results-title">Calculation Results</h2>
+            <div id="resultsContainer"></div>
+        </div>
+    </div>
+
+    <script>
+        let driverCounter = 1;
+
+        const driversDB = {
+            "16902941537": { name: "Kelly", connector: "NEMA115P" },
+            "16902945162": { name: "Wilfred", connector: "Tesla S" },
+            "16902945551": { name: "Herschel", connector: "Tesla S NEMA115P" },
+            "16902946834": { name: "Reggie", connector: "Tayp4CHAdeMO" },
+            "16902947535": { name: "See", connector: "Tayp4CHAdeMO" },
+            "16902947914": { name: "Marlin", connector: "Tesla U" },
+            "16902948630": { name: "Rose", connector: "Type2" }
+        };
+
+        const chargersDB = [
+            { name: "Charger#1", connector: "nema 1", compatible: ["Tesla U"] },
+            { name: "Charger#2", connector: "Type 4 CHAdeMO", compatible: ["Tesla s"] },
+            { name: "Charger#3", connector: "Type 2", compatible: ["Any"] },
+            { name: "Charger#4", connector: "Combo CCS", compatible: ["Tesla U"] },
+            { name: "Charger#5", connector: "nema 1", compatible: ["Any"] },
+            { name: "Charger#6", connector: "Type 2", compatible: ["Any"] }
+        ];
+
+        function getCompatibleChargers(driverConnector) {
+            const compatible = [];
+            chargersDB.forEach(charger => {
+                // Check if charger accepts any vehicle
+                if (charger.compatible.includes("Any")) {
+                    compatible.push(charger.name);
+                    return;
+                }
+                
+                // Check connector compatibility
+                if (driverConnector.includes(charger.connector)) {
+                    compatible.push(charger.name);
+                    return;
+                }
+                
+                // Check vehicle type compatibility
+                charger.compatible.forEach(vehicleType => {
+                    if (driverConnector.includes(vehicleType)) {
+                        compatible.push(charger.name);
+                    }
+                });
+            });
+            
+            return compatible.length > 0 ? compatible : ["No compatible chargers"];
+        }
+
+        function filterSuggestions(input) {
+            const value = input.value.toLowerCase();
+            const dropdown = input.nextElementSibling;
+            
+            if (value.length === 0) {
+                dropdown.innerHTML = '';
+                Object.keys(driversDB).forEach(license => {
+                    const driver = driversDB[license];
+                    const item = document.createElement('div');
+                    item.className = 'suggestion-item';
+                    item.textContent = `${license} - ${driver.name}`;
+                    item.onmousedown = () => selectDriver(input, license);
+                    dropdown.appendChild(item);
+                });
+                dropdown.classList.add('active');
+                return;
+            }
+            
+            const matches = Object.keys(driversDB).filter(license => 
+                license.includes(value) || driversDB[license].name.toLowerCase().includes(value)
+            );
+            
+            dropdown.innerHTML = '';
+            
+            if (matches.length === 0) {
+                dropdown.classList.remove('active');
+                return;
+            }
+            
+            matches.forEach(license => {
+                const driver = driversDB[license];
+                const item = document.createElement('div');
+                item.className = 'suggestion-item';
+                item.textContent = `${license} - ${driver.name}`;
+                item.onmousedown = () => selectDriver(input, license);
+                dropdown.appendChild(item);
+            });
+            
+            dropdown.classList.add('active');
+        }
+
+        function showSuggestions(input) {
+            filterSuggestions(input);
+        }
+
+        function hideSuggestions(input) {
+            setTimeout(() => {
+                const dropdown = input.nextElementSibling;
+                dropdown.classList.remove('active');
+            }, 200);
+        }
+
+        function selectDriver(input, license) {
+            input.value = license;
+            const driver = driversDB[license];
+            const driverRow = input.closest('.driver-row');
+            const infoDiv = driverRow.querySelector('.driver-info');
+            infoDiv.textContent = `${driver.name} - ${driver.connector}`;
+            
+            const dropdown = input.nextElementSibling;
+            dropdown.classList.remove('active');
+        }
+
+        function addDriver() {
+            driverCounter++;
+            const driversSection = document.getElementById('driversSection');
+            const newRow = document.createElement('div');
+            newRow.className = 'driver-row';
+            newRow.setAttribute('data-driver-id', driverCounter);
+            newRow.innerHTML = `
+                <div class="input-group">
+                    <label>License Plate Number</label>
+                    <input type="text" class="license-input" placeholder="Type to search..." oninput="filterSuggestions(this)" onfocus="showSuggestions(this)" onblur="hideSuggestions(this)">
+                    <div class="suggestions-dropdown"></div>
+                    <div class="driver-info"></div>
+                </div>
+                <div class="input-group">
+                    <label>Required Energy (kW)</label>
+                    <input type="number" class="energy-input" step="0.1" min="0" placeholder="0">
+                </div>
+                <div class="input-group">
+                    <label>Start Time</label>
+                    <input type="time" class="start-time">
+                </div>
+                <div class="input-group">
+                    <label>End Time</label>
+                    <input type="time" class="end-time">
+                </div>
+                <button class="delete-btn" onclick="deleteDriver(this)">Delete</button>
+            `;
+            driversSection.appendChild(newRow);
+            updateDeleteButtons();
+        }
+
+        function deleteDriver(button) {
+            const driverRow = button.closest('.driver-row');
+            driverRow.remove();
+            updateDeleteButtons();
+        }
+
+        function updateDeleteButtons() {
+            const rows = document.querySelectorAll('.driver-row');
+            rows.forEach(row => {
+                const deleteBtn = row.querySelector('.delete-btn');
+                deleteBtn.disabled = rows.length === 1;
+            });
+        }
+
+        function clearAll() {
+            const driversSection = document.getElementById('driversSection');
+            driversSection.innerHTML = `
+                <div class="driver-row" data-driver-id="1">
+                    <div class="input-group">
+                        <label>License Plate Number</label>
+                        <input type="text" class="license-input" placeholder="Type to search..." oninput="filterSuggestions(this)" onfocus="showSuggestions(this)" onblur="hideSuggestions(this)">
+                        <div class="suggestions-dropdown"></div>
+                        <div class="driver-info"></div>
+                    </div>
+                    <div class="input-group">
+                        <label>Required Energy (kW)</label>
+                        <input type="number" class="energy-input" step="0.1" min="0" placeholder="0">
+                    </div>
+                    <div class="input-group">
+                        <label>Start Time</label>
+                        <input type="time" class="start-time">
+                    </div>
+                    <div class="input-group">
+                        <label>End Time</label>
+                        <input type="time" class="end-time">
+                    </div>
+                    <button class="delete-btn" onclick="deleteDriver(this)" disabled>Delete</button>
+                </div>
+            `;
+            driverCounter = 1;
+            document.getElementById('resultsSection').classList.remove('active');
+        }
+
+        function timeToMinutes(timeString) {
+            const [hours, minutes] = timeString.split(':').map(Number);
+            return hours * 60 + minutes;
+        }
+
+        function calculate() {
+            const rows = document.querySelectorAll('.driver-row');
+            const results = [];
+            let hasErrors = false;
+
+            rows.forEach((row, index) => {
+                const licenseInput = row.querySelector('.license-input');
+                const license = licenseInput.value.trim();
+                const energy = parseFloat(row.querySelector('.energy-input').value);
+                const startTime = row.querySelector('.start-time').value;
+                const endTime = row.querySelector('.end-time').value;
+
+                // Validation
+                if (!license || !energy || !startTime || !endTime) {
+                    hasErrors = true;
+                    return;
+                }
+
+                if (!driversDB[license]) {
+                    alert(`Invalid license plate number: ${license}`);
+                    hasErrors = true;
+                    return;
+                }
+
+                const driver = driversDB[license];
+                const startMinutes = timeToMinutes(startTime);
+                const endMinutes = timeToMinutes(endTime);
+                
+                // Calculate reservation time in minutes
+                let reservationTime = endMinutes - startMinutes;
+                if (reservationTime < 0) {
+                    reservationTime += 24 * 60; // Handle midnight crossing
+                }
+
+                // Calculate priority
+                const priority = energy / reservationTime;
+
+                // Get compatible chargers
+                const compatibleChargers = getCompatibleChargers(driver.connector);
+
+                results.push({
+                    license: license,
+                    name: driver.name,
+                    connector: driver.connector,
+                    energy: energy,
+                    startTime: startTime,
+                    endTime: endTime,
+                    reservationTime: reservationTime,
+                    priority: priority,
+                    chargers: compatibleChargers
+                });
+            });
+
+            if (hasErrors) {
+                alert('Please fill all fields for all drivers');
+                return;
+            }
+
+            if (results.length === 0) {
+                alert('Please add at least one driver');
+                return;
+            }
+
+            // Sort by priority (highest to lowest)
+            results.sort((a, b) => b.priority - a.priority);
+
+            displayResults(results);
+        }
+
+        function displayResults(results) {
+            const resultsContainer = document.getElementById('resultsContainer');
+            const resultsSection = document.getElementById('resultsSection');
+            
+            resultsContainer.innerHTML = '';
+
+            results.forEach((result, index) => {
+                const resultItem = document.createElement('div');
+                resultItem.className = 'result-item';
+                if (index === 0) {
+                    resultItem.classList.add('top-priority');
+                }
+
+                const hours = Math.floor(result.reservationTime / 60);
+                const minutes = result.reservationTime % 60;
+                const timeDisplay = hours > 0 ? `${hours} hours and ${minutes} minutes` : `${minutes} minutes`;
+
+                resultItem.innerHTML = `
+                    <div class="result-driver">${result.name} (${result.license})</div>
+                    <div class="result-details">
+                        Connector Type: ${result.connector}<br>
+                        Required Energy: ${result.energy} kW<br>
+                        Time Range: ${result.startTime} - ${result.endTime} (${timeDisplay})<br>
+                        Compatible Chargers: ${result.chargers.join(', ')}
+                    </div>
+                    <div class="result-priority">
+                        ${index === 0 ? '⬤ ' : ''}Priority: ${result.priority.toFixed(4)}
+                    </div>
+                `;
+
+                resultsContainer.appendChild(resultItem);
+            });
+
+            resultsSection.classList.add('active');
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initialize
+        updateDeleteButtons();
+    </script>
+</body>
+</html>
