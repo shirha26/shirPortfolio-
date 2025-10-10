@@ -166,6 +166,7 @@
             align-items: center;
             max-width: 1400px;
             margin: 0 auto;
+            position: relative;
         }
 
         .logo-btn {
@@ -190,6 +191,9 @@
             letter-spacing: 0.5px;
             text-transform: uppercase;
             color: #6c6c6c;
+            position: absolute;  
+            left: 50%; 
+            transform: translateX(-50%);
         }
 
         .contact-btn {
@@ -626,23 +630,67 @@
             header {
                 padding: 15px 20px;
             }
-
-            .header-title {
+            .header-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .header-content::before {
+                content: '';
                 display: none;
             }
-
-            .header-content > div {
-                flex-wrap: wrap;
+           .logo-btn {
+                font-size: 14px;
+                padding: 6px 12px;
+                white-space: nowrap;
+                order: 1;
             }
-
-            .negative-btn {
-                margin-left: 0;
+            .header-content > div:nth-child(2) {
+                display: flex;
+                gap: 10px;
+                order: 2;
+                margin-left: auto;
+            }
+           .header-content {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .header-title {
+                position: static;
+                transform: none;
+                display: block;
+                font-size: 12px;
+                text-align: center;
+                width: 100%;
+                order: 3;
                 margin-top: 5px;
             }
-
+            .logo-btn {
+                font-size: 14px;
+                padding: 6px 12px;
+                white-space: nowrap;
+            }
+            .header-title {
+                position: static;
+                transform: none;
+                display: block;
+                font-size: 12px;
+                text-align: center;
+                width: 100%;
+            }
+            .contact-btn {
+                font-size: 12px;
+                padding: 6px 16px;
+            }
+            .negative-btn {
+                margin-left: 0;
+                font-size: 12px;
+                padding: 6px 16px;
+            }
             main {
                 padding: 20px;
-                margin-top: 80px;
+                margin-top: 100px;
             }
 
             .work-grid {
@@ -707,11 +755,11 @@
     <header>
         <div class="header-content">
             <button class="logo-btn" onclick="toggleSidePanel()">Shir Hakim</button>
-            <div class="header-title">Selected Works</div>
             <div style="display: flex; gap: 10px;">
                 <button class="contact-btn" onclick="toggleContactModal()">Contact</button>
-                <button class="negative-btn" onclick="toggleNegativeMode()">Negative</button>
+                <button class="negative-btn" id="modeBtn" onclick="toggleNegativeMode()">Dark mode</button>
             </div>
+            <div class="header-title">Selected Works</div>
         </div>
     </header>
 
@@ -723,13 +771,16 @@
                 <h1>Shir Hakim</h1>
                 <p class="role">QA Engineer & Test Case Designer</p>
                 
-                <h3 style="font-size: 20px; margin-top: 30px; margin-bottom: 15px; font-weight: 600;">Work Experience</h3>
+                <h3 style="font-size: 20px; margin-top: 30px; margin-bottom: 15px; font-weight: 600;">► Work Experience</h3>
                 <div style="margin-bottom: 20px;">
-                    <p class="year-title" style="font-weight: 600; margin-bottom: 5px;">2022 - Present | Driivz, QA Engineer</p>
-                    <p style="line-height: 1.7;">EV charging solutions. Agile, manual testing (Web & Mobile), Linux, X-Ray, Jira, SQL.</p>
+                    <h4 style="font-size: 16px; margin-top: 30px; margin-bottom: 15px; font-weight: 600;">Driivz, EV charging solutions & energy management. Agile</h4>
+                    <p class="year-title" style="font-weight: 600; margin-bottom: 5px;">2024 - Present | QA Activity Leader</p>
+                    <p style="line-height: 1.7;">Leading Energy Management QA team. MongoDB, PostgreSQL, Docker, Testmo, Testim.io, AWS, API testing (Swagger, Postman).</p>
+                    <p class="year-title" style="font-weight: 600; margin-bottom: 5px;">2022 - 2024 | QA Engineer</p>
+                    <p style="line-height: 1.7;">Manual testing, Linux, X-Ray, Jira, mySQL.</p>
                 </div>
 
-                <h3 style="font-size: 20px; margin-top: 30px; margin-bottom: 15px; font-weight: 600;">Education</h3>
+                <h3 style="font-size: 20px; margin-top: 30px; margin-bottom: 15px; font-weight: 600;">► Education</h3>
                 <div style="margin-bottom: 15px;">
                     <p class="year-title" style="font-weight: 600; margin-bottom: 5px;">2021 | HackerU, QA Course</p>
                     <p style="line-height: 1.7;">Testing methodologies, QC, TestRail, SQL.</p>
@@ -868,19 +919,26 @@
     <script>
         // Toggle Negative Mode
         function toggleNegativeMode() {
+            const modeBtn = document.getElementById('modeBtn');
             document.body.classList.toggle('negative-mode');
             // Save preference to localStorage
             if (document.body.classList.contains('negative-mode')) {
+                modeBtn.textContent = 'Light mode';
                 localStorage.setItem('negativeMode', 'true');
             } else {
+                modeBtn.textContent = 'Dark mode';
                 localStorage.setItem('negativeMode', 'false');
             }
         }
 
         // Load negative mode preference on page load
         window.addEventListener('DOMContentLoaded', function() {
+            const modeBtn = document.getElementById('modeBtn');
             if (localStorage.getItem('negativeMode') === 'true') {
                 document.body.classList.add('negative-mode');
+                modeBtn.textContent = 'Light mode';
+            } else {
+                modeBtn.textContent = 'Dark mode';
             }
         });
 
