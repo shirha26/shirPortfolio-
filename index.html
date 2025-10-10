@@ -147,6 +147,29 @@
             color: #fafafa;
         }
 
+        body.negative-mode .pdf-viewer {
+            background-color: #2c2c2c;
+        }
+
+        body.negative-mode .pdf-controls {
+            background-color: #1c1c1c;
+            border-top-color: #3c3c3c;
+        }
+
+        body.negative-mode .pdf-controls button {
+            background-color: #3c3c3c;
+            color: #fafafa;
+        }
+
+        body.negative-mode .pdf-controls span {
+            color: #fafafa;
+        }
+
+        body.negative-mode .download-link {
+            background-color: #3c3c3c;
+            color: #fafafa;
+        }
+
         /* Header */
         header {
             position: fixed;
@@ -263,6 +286,7 @@
             cursor: pointer;
             color: #6c6c6c;
             transition: color 0.3s ease;
+            z-index: 10;
         }
 
         .close-panel:hover {
@@ -348,6 +372,7 @@
             cursor: pointer;
             color: #6c6c6c;
             transition: color 0.3s ease;
+            z-index: 10;
         }
 
         .close-modal:hover {
@@ -466,7 +491,7 @@
             opacity: 1;
             justify-content: center;
             align-items: center;
-            padding: 40px;
+            padding: 20px;
         }
 
         .work-modal-content {
@@ -498,6 +523,7 @@
             font-size: 28px;
             font-weight: 600;
             color: #2c2c2c;
+            padding-right: 40px;
         }
 
         .close-work-modal {
@@ -510,6 +536,12 @@
             cursor: pointer;
             color: #6c6c6c;
             transition: color 0.3s ease;
+            z-index: 20;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .close-work-modal:hover {
@@ -538,6 +570,88 @@
 
         .work-modal-body img:hover {
             opacity: 0.9;
+        }
+
+        /* PDF Viewer Styles */
+        .pdf-viewer {
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .pdf-canvas-container {
+            overflow: auto;
+            max-height: 70vh;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background-color: #e0e0e0;
+        }
+
+        .pdf-canvas {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .pdf-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background-color: white;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .pdf-controls button {
+            background-color: #2c2c2c;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .pdf-controls button:hover:not(:disabled) {
+            background-color: #1c1c1c;
+        }
+
+        .pdf-controls button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .pdf-controls span {
+            font-size: 14px;
+            color: #2c2c2c;
+        }
+
+        .download-link {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #2c2c2c;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .download-link:hover {
+            background-color: #1c1c1c;
+        }
+
+        .pdf-iframe {
+            display: block;
+        }
+
+        .pdf-download-button {
+            display: none;
         }
 
         /* Image Fullscreen Viewer */
@@ -631,14 +745,12 @@
                 padding: 15px 20px;
             }
             .header-content {
-                flex-direction: column;
-                gap: 10px;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                align-items: center;
             }
-            .header-content::before {
-                content: '';
-                display: none;
-            }
-           .logo-btn {
+            .logo-btn {
                 font-size: 14px;
                 padding: 6px 12px;
                 white-space: nowrap;
@@ -648,13 +760,6 @@
                 display: flex;
                 gap: 10px;
                 order: 2;
-                margin-left: auto;
-            }
-           .header-content {
-                flex-direction: row;
-                flex-wrap: wrap;
-                justify-content: space-between;
-                align-items: center;
             }
             .header-title {
                 position: static;
@@ -665,19 +770,6 @@
                 width: 100%;
                 order: 3;
                 margin-top: 5px;
-            }
-            .logo-btn {
-                font-size: 14px;
-                padding: 6px 12px;
-                white-space: nowrap;
-            }
-            .header-title {
-                position: static;
-                transform: none;
-                display: block;
-                font-size: 12px;
-                text-align: center;
-                width: 100%;
             }
             .contact-btn {
                 font-size: 12px;
@@ -707,13 +799,23 @@
                 padding: 30px 20px;
             }
 
+            .work-modal {
+                padding: 0;
+            }
+
             .work-modal-content {
                 max-height: 100vh;
                 border-radius: 0;
+                max-width: 100%;
             }
 
             .work-modal-header {
-                padding: 20px;
+                padding: 60px 20px 20px 20px;
+            }
+
+            .work-modal-header h2 {
+                font-size: 22px;
+                padding-right: 0;
             }
 
             .work-modal-body {
@@ -721,8 +823,41 @@
             }
 
             .close-work-modal {
-                top: 20px;
-                right: 20px;
+                top: 15px;
+                right: 15px;
+                font-size: 32px;
+                background-color: rgba(255, 255, 255, 0.9);
+                border-radius: 50%;
+                width: 45px;
+                height: 45px;
+            }
+
+            body.negative-mode .close-work-modal {
+                background-color: rgba(44, 44, 44, 0.9);
+            }
+
+            .pdf-canvas-container {
+                max-height: 60vh;
+                padding: 10px;
+            }
+
+            .pdf-controls {
+                flex-wrap: wrap;
+                gap: 10px;
+                padding: 10px;
+            }
+
+            .pdf-controls button {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+
+            .pdf-iframe {
+                display: none;
+            }
+
+            .pdf-download-button {
+                display: block;
             }
         }
 
@@ -921,7 +1056,6 @@
         function toggleNegativeMode() {
             const modeBtn = document.getElementById('modeBtn');
             document.body.classList.toggle('negative-mode');
-            // Save preference to localStorage
             if (document.body.classList.contains('negative-mode')) {
                 modeBtn.textContent = 'Light mode';
                 localStorage.setItem('negativeMode', 'true');
@@ -977,7 +1111,12 @@
                 'meter-value': {
                     title: 'Meter Value Tab Tests',
                     content: `
-                        <iframe src="meterValueTabTests.pdf"></iframe>
+                        <iframe src="meterValueTabTests.pdf" class="pdf-iframe"></iframe>
+                        <div style="text-align: center; padding: 15px;" class="pdf-download-button">
+                            <a href="meterValueTabTests.pdf" target="_blank" class="download-link">
+                                <i class="fas fa-download"></i> Open PDF in New Tab
+                            </a>
+                        </div>
                     `
                 },
                 'simulated-flow': {
@@ -1032,7 +1171,12 @@
                 'multigender-hebrew': {
                     title: 'MultiGender Hebrew - Course Project',
                     content: `
-                        <iframe src="MultiGenderHebrew.pdf"></iframe>
+                        <iframe src="MultiGenderHebrew.pdf" class="pdf-iframe"></iframe>
+                        <div style="text-align: center; padding: 15px;" class="pdf-download-button">
+                            <a href="MultiGenderHebrew.pdf" target="_blank" class="download-link">
+                                <i class="fas fa-download"></i> Open PDF in New Tab
+                            </a>
+                        </div>
                     `
                 }
             };
