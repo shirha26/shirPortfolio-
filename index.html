@@ -1191,7 +1191,10 @@
                 'meter-value': {
                     title: 'Meter Value Tab Tests',
                     content: `
-                        <iframe src="meterValueTabTests.pdf" class="pdf-iframe"></iframe>
+                        <p style="color: #6c6c6c; margin-top: 15px;"><strong>Test Design & Architecture:</strong><br>
+                        Showcasing the ability to translate complex product requirements into comprehensive test plans. I analyzed edge cases for data filters, graphs, tooltips, and responsive behavior, ensuring accurate data visualization and robust quality for end-users.</p>
+                        
+                        <iframe src="meterValueTabTests.pdf" class="pdf-iframe" style="margin-top: 20px;"></iframe>
                         <div style="text-align: center; padding: 15px;" class="pdf-download-button">
                             <a href="meterValueTabTests.pdf" target="_blank" class="download-link">
                                 <i class="fas fa-download"></i> Open PDF in New Tab
@@ -1202,41 +1205,44 @@
                 'simulated-flow': {
                     title: 'Simulated Flow Diagram',
                     content: `
-                        <img src="Diagram-Simulated flow.png" alt="Simulated Flow Diagram" onclick="openFullscreenImage('Diagram-Simulated flow.png')">
                         <p style="color: #6c6c6c; margin-top: 15px;">This diagram illustrates the complete flow of the simulator toggle functionality, including:</p>
-                        <ul style="color: #6c6c6c; margin: 15px 0; padding-left: 20px;">
+                        <ul style="color: #6c6c6c; margin: 15px 0 25px 0; padding-left: 20px;">
                             <li>Connected vehicle type detection (REAL vs SIMULATED vs NONE)</li>
                             <li>Charging session parameter configuration</li>
                             <li>Transaction simulator state management</li>
                             <li>API integration for simulated profile retrieval</li>
                         </ul>
+                        
+                        <img src="Diagram-Simulated flow.png" alt="Simulated Flow Diagram" onclick="openFullscreenImage('Diagram-Simulated flow.png')" style="margin-top: 10px;">
                     `
                 },
                 'vpp-diagram': {
                     title: 'VPP One-Step Diagram',
                     content: `
-                        <img src="VPPDiagram-OneStep.png" alt="VPP One-Step Diagram" onclick="openFullscreenImage('VPPDiagram-OneStep.png')">
                         <p style="color: #6c6c6c; margin-top: 15px;">Comprehensive workflow for Virtual Power Plant algorithm demonstrating:</p>
-                        <ul style="color: #6c6c6c; margin: 15px 0; padding-left: 20px;">
+                        <ul style="color: #6c6c6c; margin: 15px 0 25px 0; padding-left: 20px;">
                             <li>BZ#1 commitment simulation with 100 stations</li>
                             <li>Frequency simulator integration (50Hz)</li>
                             <li>TxProfile management and grid lock coordination</li>
                             <li>Multi-phase commitment lifecycle (READY → PLANNING → EXECUTING → MONITORING → RESTORING → DEACTIVATED → FULFILLED)</li>
                             <li>Configuration management and database interactions</li>
                         </ul>
+                        
+                        <img src="VPPDiagram-OneStep.png" alt="VPP One-Step Diagram" onclick="openFullscreenImage('VPPDiagram-OneStep.png')" style="margin-top: 10px;">
                     `
                 },
                 'config-scenarios': {
                     title: 'Configurations Test Scenarios',
                     content: `
-                        <img src="Configurations_Test_scenarios.png" alt="Configuration Test Scenarios" onclick="openFullscreenImage('Configurations_Test_scenarios.png')">
                         <p style="color: #6c6c6c; margin-top: 15px;">Comprehensive test matrix covering multiple scenarios:</p>
-                        <ul style="color: #6c6c6c; margin: 15px 0; padding-left: 20px;">
+                        <ul style="color: #6c6c6c; margin: 15px 0 25px 0; padding-left: 20px;">
                             <li><strong>Registration Flow:</strong> Testing various combinations of shipping/billing address configurations</li>
                             <li><strong>Profile Page:</strong> Validation of address display and mandatory field requirements</li>
                             <li><strong>16 Test Scenarios:</strong> From DMS-10502 to DMS-10503, covering TRUE/FALSE combinations</li>
                             <li><strong>Expected Results:</strong> Clear documentation of address behavior and validation rules</li>
                         </ul>
+                        
+                        <img src="Configurations_Test_scenarios.png" alt="Configuration Test Scenarios" onclick="openFullscreenImage('Configurations_Test_scenarios.png')" style="margin-top: 10px;">
                     `
                 },
                 'interactive-guides': {
@@ -1272,13 +1278,21 @@
                 'energy-planning': {
                     title: 'Energy Planning Calculator',
                     content: `
-                        <iframe src="energyPlanningCalculator.html" style="height: 700px;"></iframe>
+                        <p style="color: #6c6c6c; margin-top: 15px;"><strong>Algorithm & Logic Validation:</strong><br>
+                        Validating complex calculation logic for an interactive energy planning tool used in EV charging infrastructure optimization. Focused on testing dynamic capacity planning, boundary values, and system resilience under variable load inputs.</p>
+                        
+                        <div style="position: relative; width: 100%; height: 700px; overflow: hidden; border-radius: 8px; border: 1px solid #e0e0e0; background: #fff; margin-top: 25px;">
+                            <iframe src="energyPlanningCalculator.html" style="width: 100%; height: 100%; border: none; display: block;"></iframe>
+                        </div>
                     `
                 },
                 'multigender-hebrew': {
                     title: 'MultiGender Hebrew - Course Project',
                     content: `
-                        <iframe src="MultiGenderHebrew.pdf" class="pdf-iframe"></iframe>
+                        <p style="color: #6c6c6c; margin-top: 15px;"><strong>Methodology & Documentation:</strong><br>
+                        Created extensive QA testing documentation and test cases for the MultiGender Hebrew website. This project demonstrated systematic testing methodologies, bug tracking, and Quality Control (QC) processes built from scratch.</p>
+                        
+                        <iframe src="MultiGenderHebrew.pdf" class="pdf-iframe" style="margin-top: 20px;"></iframe>
                         <div style="text-align: center; padding: 15px;" class="pdf-download-button">
                             <a href="MultiGenderHebrew.pdf" target="_blank" class="download-link">
                                 <i class="fas fa-download"></i> Open PDF in New Tab
@@ -1289,18 +1303,19 @@
                 'ivix-automation': {
                     title: 'AI-Native E2E Automation Framework',
                     content: `
-                        <img src="ivix-automation.png" alt="Automation Architecture" onclick="openFullscreenImage('ivix-automation.png')">
                         <p style="color: #6c6c6c; margin-top: 15px;"><strong>The Challenge:</strong><br>
                         Designing a scalable, NDA-compliant automation infrastructure from scratch to validate complex UI, REST APIs, and multiple data stores across both Cloud (SaaS) and On-Premise environments.</p>
                         
                         <p style="color: #6c6c6c; margin-top: 15px;"><strong>The Architecture & Solution:</strong></p>
-                        <ul style="color: #6c6c6c; margin: 15px 0; padding-left: 20px;">
+                        <ul style="color: #6c6c6c; margin: 15px 0 25px 0; padding-left: 20px;">
                             <li><strong>Tech Stack:</strong> Node.js, TypeScript, Playwright (POM architecture with ~220 specs and over 1,000+ test cases).</li>
                             <li><strong>Prompt-Driven Development:</strong> Integrated Claude/Gemini agents directly into the workflow to generate structured test plans and accelerate authoring.</li>
                             <li><strong>Deep Data Validation:</strong> Engineered cross-store parity checks directly against MongoDB, Elasticsearch, and SingleStore databases—moving beyond standard UI assertions.</li>
                             <li><strong>Resilient Execution:</strong> Implemented GitHub Actions CI/CD with self-healing retries, file-backed state machines, and dynamic environment resolution (GCP / RKE2 clusters).</li>
                             <li><strong>Smart Reporting:</strong> Built custom reporting pipelines with automated Jira issue correlation to filter out noise from known defects.</li>
                         </ul>
+                        
+                        <img src="ivix-automation.png" alt="Automation Architecture" onclick="openFullscreenImage('ivix-automation.png')" style="margin-top: 10px;">
                     `
                 },
                 'bush-collective': {
@@ -1327,25 +1342,27 @@
                 'surfing': {
                     title: 'Ultimate Reset',
                     content: `
-                        <img src="surfing-wipeout.jpeg" alt="Surfing Wipeout" onclick="openFullscreenImage('surfing-wipeout.jpeg')">
                         <p style="color: #6c6c6c; margin-top: 15px;"><strong>The Ocean as a Debugger:</strong></p>
-                        <ul style="color: #6c6c6c; margin: 15px 0; padding-left: 20px;">
+                        <ul style="color: #6c6c6c; margin: 15px 0 25px 0; padding-left: 20px;">
                             <li>My ultimate way to clear the cache, disconnect, and recharge.</li>
                             <li>A great reminder that resilience is key, especially when you wipe out gracefully.</li>
                             <li>Learning not to take everything too seriously and enjoying the ride.</li>
                         </ul>
+                        
+                        <img src="surfing-wipeout.jpeg" alt="Surfing Wipeout" onclick="openFullscreenImage('surfing-wipeout.jpeg')" style="margin-top: 10px;">
                     `
                 },
                 'yoga': {
                     title: 'Finding Balance',
                     content: `
-                        <img src="yoga-snow.jpeg" alt="Yoga in the Snow" onclick="openFullscreenImage('yoga-snow.jpeg')">
                         <p style="color: #6c6c6c; margin-top: 15px;"><strong>Perspective Shifts:</strong></p>
-                        <ul style="color: #6c6c6c; margin: 15px 0; padding-left: 20px;">
+                        <ul style="color: #6c6c6c; margin: 15px 0 25px 0; padding-left: 20px;">
                             <li>Yoga helps me maintain focus, flexibility, and a calm mindset during complex planning.</li>
                             <li>Stepping out of the comfort zone.</li>
                             <li>A necessary counterbalance to hours of screen time.</li>
                         </ul>
+                        
+                        <img src="yoga-snow.jpeg" alt="Yoga in the Snow" onclick="openFullscreenImage('yoga-snow.jpeg')" style="margin-top: 10px;">
                     `
                 }
             };
