@@ -416,7 +416,26 @@
             margin-left: auto;
             margin-right: auto;
         }
+        /* Category Headers */
+        .category-header {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c2c2c;
+            margin-top: 60px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+            transition: color 0.4s ease, border-color 0.4s ease;
+        }
 
+        body.negative-mode .category-header {
+            color: #fafafa;
+            border-bottom-color: #3c3c3c;
+        }
+
+        main > .category-header:first-child {
+            margin-top: 0;
+        }
         /* Work Grid */
         .work-grid {
             display: grid;
@@ -988,9 +1007,11 @@
     </div>
 
     <!-- Main Content -->
+
     <main>
+        <!-- Category 1 -->
+        <h2 class="category-header">QA Design & Architecture</h2>
         <div class="work-grid">
-            <!-- Work Item 1: Meter Value Tab Tests -->
             <div class="work-item" onclick="openWork('meter-value')">
                 <div class="work-image">
                     <img src="meterValue.png" alt="Meter Value Tab Tests">
@@ -1001,7 +1022,6 @@
                 </div>
             </div>
 
-            <!-- Work Item 2: Simulated Flow Diagram -->
             <div class="work-item" onclick="openWork('simulated-flow')">
                 <div class="work-image">
                     <img src="Diagram-Simulated flow.png" alt="Simulated Flow Diagram">
@@ -1012,7 +1032,6 @@
                 </div>
             </div>
 
-            <!-- Work Item 3: VPP One-Step Diagram -->
             <div class="work-item" onclick="openWork('vpp-diagram')">
                 <div class="work-image">
                     <img src="VPPDiagram-OneStep.png" alt="VPP One-Step Diagram">
@@ -1023,7 +1042,6 @@
                 </div>
             </div>
 
-            <!-- Work Item 4: Configuration Test Scenarios -->
             <div class="work-item" onclick="openWork('config-scenarios')">
                 <div class="work-image">
                     <img src="Configurations_Test_scenarios.png" alt="Configuration Test Scenarios">
@@ -1034,18 +1052,6 @@
                 </div>
             </div>
 
-            <!-- Work Item 5: Energy Planning Calculator -->
-            <div class="work-item" onclick="openWork('energy-planning')">
-                <div class="work-image">
-                    <img src="energyPlanning.png" alt="Configuration Test Scenarios">
-                </div>
-                <div class="work-info">
-                    <div class="work-title">Energy Planning Calculator</div>
-                    <div class="work-description">Interactive energy planning calculator tool for EV charging infrastructure optimization and capacity planning.</div>
-                </div>
-            </div>
-
-            <!-- Work Item 6: MultiGender Hebrew - Course Project -->
             <div class="work-item" onclick="openWork('multigender-hebrew')">
                 <div class="work-image">
                     <img src="MultiGenderHebrew.png" alt="Configuration Test Scenarios">
@@ -1056,6 +1062,73 @@
                 </div>
             </div>
         </div>
+
+        <!-- Category 2 -->
+        <h2 class="category-header">The Efficiency Toolbox: AI & Workflow Solutions</h2>
+        <div class="work-grid">
+            <div class="work-item" onclick="openWork('interactive-guides')">
+                <div class="work-image">
+                    <img src="learningfun.jpg" alt="Learning Fun Meme" style="object-fit: contain; padding: 10px;">
+                </div>
+                <div class="work-info">
+                    <div class="work-title">Interactive Team Guides</div>
+                    <div class="work-description">Designing dynamic, communicative manuals and interactive knowledge bases to streamline complex team workflows.</div>
+                </div>
+            </div>
+            <div class="work-item" onclick="openWork('energy-planning')">
+                <div class="work-image">
+                    <img src="energyPlanning.png" alt="Configuration Test Scenarios">
+                </div>
+                <div class="work-info">
+                    <div class="work-title">Energy Planning Calculator</div>
+                    <div class="work-description">Interactive energy planning calculator tool for EV charging infrastructure optimization and capacity planning.</div>
+                </div>
+            </div>
+
+            <div class="work-item" onclick="openWork('ivix-automation')">
+                <div class="work-image">
+                    <img src="ivix-automation.png" alt="IVIX Automation Architecture">
+                </div>
+                <div class="work-info">
+                    <div class="work-title">AI-Native E2E Automation</div>
+                    <div class="work-description">Designed and maintained a Playwright/TypeScript automation suite using Prompt-Driven Development.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category 3 -->
+        <h2 class="category-header">Outside the Terminal: Hobbies & Passions</h2>
+        <div class="work-grid">
+            <div class="work-item" onclick="openWork('bush-collective')">
+                <div class="work-image">
+                    <img src="bush-website.png" alt="Bush Collective Website">
+                </div>
+                <div class="work-info">
+                    <div class="work-title">Bush Collective</div>
+                    <div class="work-description">Co-founder & Manager. Overseeing artistic projects, publications and website infrastructure.</div>
+                </div>
+            </div>
+
+            <div class="work-item" onclick="openWork('surfing')">
+                <div class="work-image">
+                    <img src="surfing-wipeout.jpeg" alt="Surfing Wipeout">
+                </div>
+                <div class="work-info">
+                    <div class="work-title">Surfing & Resilience</div>
+                    <div class="work-description">Catching waves, clearing the mind and occasionally wiping out with style.</div>
+                </div>
+            </div>
+
+            <div class="work-item" onclick="openWork('yoga')">
+                <div class="work-image">
+                    <img src="yoga-snow.jpeg" alt="Yoga Headstand in Snow">
+                </div>
+                <div class="work-info">
+                    <div class="work-title">Yoga & Balance</div>
+                    <div class="work-description">Finding focus and perspective anywhere.</div>
+                </div>
+            </div>
+        </div>    
     </main>
 
     <script>
@@ -1130,7 +1203,6 @@
                     title: 'Simulated Flow Diagram',
                     content: `
                         <img src="Diagram-Simulated flow.png" alt="Simulated Flow Diagram" onclick="openFullscreenImage('Diagram-Simulated flow.png')">
-                        <p style="color: #6c6c6c; margin-top: 20px;">💡 <strong>Tip:</strong> Click on the image to view in fullscreen</p>
                         <p style="color: #6c6c6c; margin-top: 15px;">This diagram illustrates the complete flow of the simulator toggle functionality, including:</p>
                         <ul style="color: #6c6c6c; margin: 15px 0; padding-left: 20px;">
                             <li>Connected vehicle type detection (REAL vs SIMULATED vs NONE)</li>
@@ -1144,7 +1216,6 @@
                     title: 'VPP One-Step Diagram',
                     content: `
                         <img src="VPPDiagram-OneStep.png" alt="VPP One-Step Diagram" onclick="openFullscreenImage('VPPDiagram-OneStep.png')">
-                        <p style="color: #6c6c6c; margin-top: 20px;">💡 <strong>Tip:</strong> Click on the image to view in fullscreen</p>
                         <p style="color: #6c6c6c; margin-top: 15px;">Comprehensive workflow for Virtual Power Plant algorithm demonstrating:</p>
                         <ul style="color: #6c6c6c; margin: 15px 0; padding-left: 20px;">
                             <li>BZ#1 commitment simulation with 100 stations</li>
@@ -1159,7 +1230,6 @@
                     title: 'Configurations Test Scenarios',
                     content: `
                         <img src="Configurations_Test_scenarios.png" alt="Configuration Test Scenarios" onclick="openFullscreenImage('Configurations_Test_scenarios.png')">
-                        <p style="color: #6c6c6c; margin-top: 20px;"><strong>💡 Tip:</strong> Click on the image to view in fullscreen and see all details clearly</p>
                         <p style="color: #6c6c6c; margin-top: 15px;">Comprehensive test matrix covering multiple scenarios:</p>
                         <ul style="color: #6c6c6c; margin: 15px 0; padding-left: 20px;">
                             <li><strong>Registration Flow:</strong> Testing various combinations of shipping/billing address configurations</li>
@@ -1167,6 +1237,36 @@
                             <li><strong>16 Test Scenarios:</strong> From DMS-10502 to DMS-10503, covering TRUE/FALSE combinations</li>
                             <li><strong>Expected Results:</strong> Clear documentation of address behavior and validation rules</li>
                         </ul>
+                    `
+                },
+                'interactive-guides': {
+                    title: 'Interactive Knowledge Bases',
+                    content: `
+                        <p style="color: #6c6c6c; margin-top: 15px;">I build communicative, dynamic tools and comprehensive knowledge bases to help team members execute complex technical tasks smoothly and without errors.</p>
+                        
+                        <p style="color: #6c6c6c; margin-top: 15px;"><strong>Here are 2 examples:</strong></p>
+                        <ul style="color: #6c6c6c; margin: 10px 0 25px 0; padding-left: 20px;">
+                            <li><strong>On-Prem Deployment Guide:</strong> An interactive tool that generates copy-paste commands based on user input.</li>
+                            <li><strong>OCPP 1.6 Knowledge Base:</strong> A complete documentation hub for learning and implementing the OCPP protocol.</li>
+                        </ul>
+
+                        <!-- (On-Prem) -->
+                        <h4 style="color: #2c2c2c; margin-top: 30px; margin-bottom: 15px; font-weight: 600; font-size: 18px;">1. On-Prem Deployment Guide</h4>
+                        <div style="position: relative; width: 100%; height: 500px; overflow: hidden; border-radius: 8px; border: 1px solid #e0e0e0; background: #fff;">
+                            <iframe src="onprem-deployment-guide.html" style="width: 100%; height: 100%; border: none; display: block;"></iframe>
+                        </div>
+
+                        <!-- (OCPP 1.6) -->
+                        <h4 style="color: #2c2c2c; margin-top: 40px; margin-bottom: 15px; font-weight: 600; font-size: 18px;">2. OCPP 1.6 Knowledge Base</h4>
+                        <div style="position: relative; width: 100%; height: 550px; overflow: hidden; border-radius: 8px; border: 1px solid #e0e0e0; background: #fff;">
+                            <iframe src="https://shirha26.github.io/Energy-Management-Knowledge/" style="width: 100%; height: 100%; border: none; display: block;"></iframe>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 20px;">
+                            <a href="https://shirha26.github.io/Energy-Management-Knowledge/" target="_blank" class="download-link">
+                                <i class="fas fa-external-link-alt"></i> Open OCPP Guide in New Tab
+                            </a>
+                        </div>
                     `
                 },
                 'energy-planning': {
@@ -1184,6 +1284,68 @@
                                 <i class="fas fa-download"></i> Open PDF in New Tab
                             </a>
                         </div>
+                    `
+                },
+                'ivix-automation': {
+                    title: 'AI-Native E2E Automation Framework',
+                    content: `
+                        <img src="ivix-automation.png" alt="Automation Architecture" onclick="openFullscreenImage('ivix-automation.png')">
+                        <p style="color: #6c6c6c; margin-top: 15px;"><strong>The Challenge:</strong><br>
+                        Designing a scalable, NDA-compliant automation infrastructure from scratch to validate complex UI, REST APIs, and multiple data stores across both Cloud (SaaS) and On-Premise environments.</p>
+                        
+                        <p style="color: #6c6c6c; margin-top: 15px;"><strong>The Architecture & Solution:</strong></p>
+                        <ul style="color: #6c6c6c; margin: 15px 0; padding-left: 20px;">
+                            <li><strong>Tech Stack:</strong> Node.js, TypeScript, Playwright (POM architecture with ~220 specs and over 1,000+ test cases).</li>
+                            <li><strong>Prompt-Driven Development:</strong> Integrated Claude/Gemini agents directly into the workflow to generate structured test plans and accelerate authoring.</li>
+                            <li><strong>Deep Data Validation:</strong> Engineered cross-store parity checks directly against MongoDB, Elasticsearch, and SingleStore databases—moving beyond standard UI assertions.</li>
+                            <li><strong>Resilient Execution:</strong> Implemented GitHub Actions CI/CD with self-healing retries, file-backed state machines, and dynamic environment resolution (GCP / RKE2 clusters).</li>
+                            <li><strong>Smart Reporting:</strong> Built custom reporting pipelines with automated Jira issue correlation to filter out noise from known defects.</li>
+                        </ul>
+                    `
+                },
+                'bush-collective': {
+                    title: 'Bush Collective',
+                    content: `
+                        <p style="color: #6c6c6c; margin-top: 15px;">A multifaceted leadership role combining management, tech, and art:</p>
+                        <ul style="color: #6c6c6c; margin: 15px 0 25px 0; padding-left: 20px;">
+                            <li>Managing complex artistic projects and publications from concept to delivery.</li>
+                            <li>Website infrastructure management and continuous maintenance.</li>
+                            <li>Bridging the gap between creative vision and technical execution.</li>
+                        </ul>
+                        
+                        <div style="position: relative; width: 100%; height: 450px; overflow: hidden; border-radius: 8px; border: 1px solid #e0e0e0; background: #fff;">
+                            <iframe src="https://www.bushfanzine.com/" style="position: absolute; top: 0; left: 0; width: 200%; height: 900px; border: none; transform: scale(0.5); transform-origin: top left;"></iframe>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 20px;">
+                            <a href="https://www.bushfanzine.com/" target="_blank" class="download-link">
+                                <i class="fas fa-external-link-alt"></i> Visit Live Website
+                            </a>
+                        </div>
+                    `
+                },
+                'surfing': {
+                    title: 'Ultimate Reset',
+                    content: `
+                        <img src="surfing-wipeout.jpeg" alt="Surfing Wipeout" onclick="openFullscreenImage('surfing-wipeout.jpeg')">
+                        <p style="color: #6c6c6c; margin-top: 15px;"><strong>The Ocean as a Debugger:</strong></p>
+                        <ul style="color: #6c6c6c; margin: 15px 0; padding-left: 20px;">
+                            <li>My ultimate way to clear the cache, disconnect, and recharge.</li>
+                            <li>A great reminder that resilience is key, especially when you wipe out gracefully.</li>
+                            <li>Learning not to take everything too seriously and enjoying the ride.</li>
+                        </ul>
+                    `
+                },
+                'yoga': {
+                    title: 'Finding Balance',
+                    content: `
+                        <img src="yoga-snow.jpeg" alt="Yoga in the Snow" onclick="openFullscreenImage('yoga-snow.jpeg')">
+                        <p style="color: #6c6c6c; margin-top: 15px;"><strong>Perspective Shifts:</strong></p>
+                        <ul style="color: #6c6c6c; margin: 15px 0; padding-left: 20px;">
+                            <li>Yoga helps me maintain focus, flexibility, and a calm mindset during complex planning.</li>
+                            <li>Stepping out of the comfort zone.</li>
+                            <li>A necessary counterbalance to hours of screen time.</li>
+                        </ul>
                     `
                 }
             };
