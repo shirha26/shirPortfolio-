@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>On-Prem Deployment Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root {
+    --bg: #0f1117;
+    --surface: #181c27;
+    --surface2: #1e2333;
+    --border: #2a2f45;
+    --accent: #4f8ef7;
+    --accent2: #7c5af7;
+    --green: #2dd4a0;
+    --orange: #f0956a;
+    --red: #f75a5a;
+    --text: #e2e8f8;
+    --text-muted: #7a83a8;
+    --code-bg: #111520;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  .layout { display: flex; min-height: 100vh; }
+
+  .sidebar {
+    width: 240px;
+    min-width: 240px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 28px 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  .sidebar-logo {
+    padding: 0 24px 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+
+  .sidebar-logo span {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .sidebar-logo h2 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-top: 4px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 24px;
+    font-size: 13px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    border-left: 2px solid transparent;
+  }
+
+  .nav-item:hover { color: var(--text); background: var(--surface2); }
+  .nav-item.active { color: var(--accent); border-left-color: var(--accent); background: rgba(79,142,247,0.06); }
+  .nav-num { font-size: 11px; font-weight: 700; font-family: 'JetBrains Mono', monospace; color: var(--accent2); min-width: 18px; }
+
+  .main {
+    flex: 1;
+    padding: 48px 56px;
+    max-width: 900px;
+  }
+
+  /* Config Panel */
+  .config-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .config-panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+  }
+
+  .config-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .config-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .config-field { display: flex; flex-direction: column; gap: 6px; }
+  .config-field.full { grid-column: 1 / -1; }
+
+  .config-field label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .config-field input {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 10px 14px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .config-field input:focus { border-color: var(--accent); }
+  .config-field input::placeholder { color: var(--text-muted); }
+  .config-field input.filled { border-color: var(--green); color: var(--green); }
+
+  .live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(45,212,160,0.1);
+    border: 1px solid rgba(45,212,160,0.3);
+    border-radius: 20px;
+    padding: 2px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--green);
+    margin-left: 12px;
+  }
+
+  .live-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  /* Steps */
+  .step { margin-bottom: 48px; scroll-margin-top: 32px; }
+
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .step-num {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    flex-shrink: 0;
+  }
+
+  .step-title { font-size: 18px; font-weight: 700; color: var(--text); }
+  .step-desc { color: var(--text-muted); font-size: 14px; margin-bottom: 16px; margin-left: 50px; }
+
+  /* Code blocks */
+  .code-block {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    margin: 12px 0 12px 50px;
+    overflow: hidden;
+  }
+
+  .code-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+
+  .code-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .copy-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 3px 10px;
+    color: var(--text-muted);
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: 'Inter', sans-serif;
+    user-select: none;
+  }
+
+  .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .copy-btn.copied { border-color: var(--green); color: var(--green); background: rgba(45,212,160,0.08); }
+
+  .code-content {
+    padding: 16px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    line-height: 1.8;
+    white-space: pre;
+    overflow-x: auto;
+  }
+
+  .placeholder { color: #a78bfa; font-style: italic; }
+  .comment { color: var(--text-muted); }
+
+  /* Notes */
+  .note {
+    margin: 12px 0 12px 50px;
+    padding: 14px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .note.warning { background: rgba(240,149,106,0.08); border: 1px solid rgba(240,149,106,0.3); color: #f0a882; }
+  .note.info    { background: rgba(79,142,247,0.08);  border: 1px solid rgba(79,142,247,0.25);  color: #8fb8ff; }
+  .note.success { background: rgba(45,212,160,0.08);  border: 1px solid rgba(45,212,160,0.25);  color: var(--green); }
+
+  /* inline code inside notes — clearly distinct */
+  .note .inline-cmd {
+    display: inline-block;
+    background: rgba(0,0,0,0.35);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    padding: 0 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    color: #e2e8f8;
+    white-space: nowrap;
+  }
+
+  /* link inside note */
+  .note a { color: inherit; text-decoration: underline; opacity: 0.85; }
+  .note a:hover { opacity: 1; }
+
+  /* Sub-label for component sections */
+  .sub-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 20px 0 6px 50px;
+  }
+
+  /* Divider */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 0 0 48px 50px; }
+
+  /* Checklist */
+  .checklist { margin: 12px 0 12px 50px; display: flex; flex-direction: column; gap: 8px; }
+  .check-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text-muted); }
+  .check-icon { color: var(--green); font-size: 15px; }
+
+  /* Page header */
+  .page-header { margin-bottom: 40px; }
+  .page-header h1 { font-size: 28px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+  .page-header p { color: var(--text-muted); font-size: 14px; max-width: 560px; }
+
+  .env-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+    margin-top: 12px;
+  }
+  @media (max-width: 850px) {
+    .layout { flex-direction: column; }
+    .sidebar {
+      width: 100%; min-width: 100%; height: auto; position: static;
+      border-right: none; border-bottom: 1px solid var(--border);
+      display: flex; flex-wrap: wrap; gap: 8px; padding: 20px; z-index: 10;
+    }
+    .sidebar-logo { 
+      width: 100%; padding: 0 0 15px 0; margin-bottom: 5px; 
+      border-bottom: 1px solid var(--border); 
+      display: flex; align-items: center; gap: 10px; 
+    }
+    .sidebar-logo h2 { margin: 0; }
+    .nav-item { 
+      padding: 6px 12px; border-left: none; border: 1px solid var(--border); 
+      border-radius: 20px; font-size: 12px; white-space: nowrap;
+    }
+    .nav-item.active { 
+      border-color: var(--accent); background: rgba(79,142,247,0.1); 
+    }
+    .main { padding: 20px; }
+    .config-grid { grid-template-columns: 1fr; }
+    .step-desc, .code-block, .note, .sub-label, .divider, .checklist { margin-left: 0; }
+    .step-header { margin-bottom: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <nav class="sidebar">
+    <div class="sidebar-logo">
+      <span>On-Prem</span>
+      <h2>Deployment Guide</h2>
+    </div>
+    <div class="nav-item active" onclick="goTo('step1', this)"><span class="nav-num">01</span> Connect to Server</div>
+    <div class="nav-item" onclick="goTo('step2', this)"><span class="nav-num">02</span> Create Directory</div>
+    <div class="nav-item" onclick="goTo('step3', this)"><span class="nav-num">03</span> Image List</div>
+    <div class="nav-item" onclick="goTo('step4', this)"><span class="nav-num">04</span> Save Images</div>
+    <div class="nav-item" onclick="goTo('step5', this)"><span class="nav-num">05</span> Upload to Registry</div>
+    <div class="nav-item" onclick="goTo('step6', this)"><span class="nav-num">06</span> Update main.yaml</div>
+    <div class="nav-item" onclick="goTo('step7', this)"><span class="nav-num">07</span> Run Upgrade</div>
+    <div class="nav-item" onclick="goTo('step8', this)"><span class="nav-num">08</span> Verify Pods</div>
+  </nav>
+
+  <main class="main">
+
+    <div class="page-header">
+      <h1>On-Prem Deployment Guide</h1>
+      <p>Step-by-step instructions for installing and upgrading images on an on-premise environment. Fill in the configuration below — all commands update automatically.</p>
+      <div class="env-badge" id="env-display">⬡ No environment configured</div>
+    </div>
+
+    <!-- Config Panel -->
+    <div class="config-panel">
+      <div class="config-title">
+        ⚙ Deployment Configuration
+        <span class="live-badge"><span class="live-dot"></span>Live</span>
+      </div>
+      <div class="config-grid">
+        <div class="config-field">
+          <label>Environment IP</label>
+          <input type="text" id="cfg-env" placeholder="e.g. 10.60.16.11" oninput="update()">
+        </div>
+        <div class="config-field">
+          <label>Version / Folder Name</label>
+          <input type="text" id="cfg-version" placeholder="e.g. 7_8_7_5" oninput="update()">
+        </div>
+        <div class="config-field full">
+          <label>impala-api image tag</label>
+          <input type="text" id="cfg-impala-api" placeholder="e.g. 2026-06-28.607.8d738be6..." oninput="update()">
+        </div>
+        <div class="config-field full">
+          <label>impala-ui image tag</label>
+          <input type="text" id="cfg-impala-ui" placeholder="e.g. 2026-06-28.4d315d540f..." oninput="update()">
+        </div>
+        <div class="config-field full">
+          <label>platform (webapp) image tag</label>
+          <input type="text" id="cfg-platform" placeholder="e.g. 2026-06-28.b37df2868a..." oninput="update()">
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="step" id="step1">
+      <div class="step-header">
+        <div class="step-num">1</div>
+        <div class="step-title">Connect &amp; Switch to Root</div>
+      </div>
+      <p class="step-desc">SSH into the master node and switch to root before running any commands.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <div class="code-content">sudo su -</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Step 2 -->
+    <div class="step" id="step2">
+      <div class="step-header">
+        <div class="step-num">2</div>
+        <div class="step-title">Create Upgrade Directory</div>
+      </div>
+      <p class="step-desc">Navigate to the upgrades folder and create a new directory for this deployment. Copy the scripts from the previous version.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <div class="code-content">cd /data/rke2-artifacts/docker_images/multiple-archives/upgrades/
+mkdir <span class="placeholder" id="ph-version-1">&lt;VERSION&gt;</span>
+cp &lt;PREV_VERSION&gt;/save-docker-images.sh <span class="placeholder" id="ph-version-2">&lt;VERSION&gt;</span>/
+cp &lt;PREV_VERSION&gt;/upload-docker-images.sh <span class="placeholder" id="ph-version-3">&lt;VERSION&gt;</span>/
+cd <span class="placeholder" id="ph-version-4">&lt;VERSION&gt;</span>/</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Step 3 -->
+    <div class="step" id="step3">
+      <div class="step-header">
+        <div class="step-num">3</div>
+        <div class="step-title">Create docker-images.txt</div>
+      </div>
+      <p class="step-desc">Create the image list file with the three image tags for this deployment.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <div class="code-content">cat &gt; docker-images.txt &lt;&lt; 'EOF'
+302631773488.dkr.ecr.us-east-2.amazonaws.com/webapp:<span class="placeholder" id="ph-platform-1">&lt;PLATFORM_TAG&gt;</span>
+302631773488.dkr.ecr.us-east-2.amazonaws.com/deployment_manager_ui:<span class="placeholder" id="ph-impala-ui-1">&lt;IMPALA_UI_TAG&gt;</span>
+302631773488.dkr.ecr.us-east-2.amazonaws.com/impala_api:<span class="placeholder" id="ph-impala-api-1">&lt;IMPALA_API_TAG&gt;</span>
+EOF</div>
+      </div>
+      <div class="note info">ℹ Verify the file with: <span class="inline-cmd">cat docker-images.txt</span></div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Step 4 -->
+    <div class="step" id="step4">
+      <div class="step-header">
+        <div class="step-num">4</div>
+        <div class="step-title">Pull &amp; Save Images from ECR</div>
+      </div>
+      <p class="step-desc">Authenticate with AWS SSO and pull all images locally. If you need to set up a profile on the machine first, follow the <a href="https://ivix.atlassian.net/wiki/spaces/DEV/pages/1831370779/AWS+CLI+and+console+access+with+SSO" target="_blank" style="color:var(--accent)">AWS CLI &amp; SSO setup guide</a>.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <div class="code-content">export AWS_PROFILE=aws
+aws sso login --profile $AWS_PROFILE</div>
+      </div>
+      <div class="note warning">⚠ After SSO login, always restore the local kubectl context — otherwise commands will point to the wrong cluster:
+<span class="inline-cmd">kubectl config use-context default</span></div>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <div class="code-content">kubectl config use-context default</div>
+      </div>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <div class="code-content">bash save-docker-images.sh</div>
+      </div>
+      <p class="step-desc" style="margin-top:12px;">Expected output — all three images should show <strong>pull success</strong>:</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">expected output</span></div>
+        <div class="code-content"><span class="comment">Image pull success: 302631773488.dkr.ecr.us-east-2.amazonaws.com/webapp:</span><span class="placeholder" id="ph-platform-ex">&lt;PLATFORM_TAG&gt;</span>
+<span class="comment">Image pull success: 302631773488.dkr.ecr.us-east-2.amazonaws.com/deployment_manager_ui:</span><span class="placeholder" id="ph-impala-ui-ex">&lt;IMPALA_UI_TAG&gt;</span>
+<span class="comment">Image pull success: 302631773488.dkr.ecr.us-east-2.amazonaws.com/impala_api:</span><span class="placeholder" id="ph-impala-api-ex">&lt;IMPALA_API_TAG&gt;</span></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Step 5 -->
+    <div class="step" id="step5">
+      <div class="step-header">
+        <div class="step-num">5</div>
+        <div class="step-title">Upload to Local Registry</div>
+      </div>
+      <p class="step-desc">Push all images to the on-prem Docker registry.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <div class="code-content">bash upload-docker-images.sh</div>
+      </div>
+      <p class="step-desc" style="margin-top:12px;">Verify the images are in the registry:</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <div class="code-content">curl -k https://docker-registry.onprem.local/v2/302631773488.dkr.ecr.us-east-2.amazonaws.com%2Fimpala_api/tags/list
+curl -k https://docker-registry.onprem.local/v2/302631773488.dkr.ecr.us-east-2.amazonaws.com%2Fwebapp/tags/list</div>
+      </div>
+      <div class="note success">✓ Confirm the new tags appear in the response before proceeding.</div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Step 6 -->
+    <div class="step" id="step6">
+      <div class="step-header">
+        <div class="step-num">6</div>
+        <div class="step-title">Update main.yaml Files</div>
+      </div>
+      <p class="step-desc">Edit each role's vars file and update the <span class="inline-cmd" style="color:#e2e8f8">image_tag1</span> value. In vi: press <span class="inline-cmd" style="color:#e2e8f8">i</span> to edit, then <span class="inline-cmd" style="color:#e2e8f8">Esc → :wq → Enter</span> to save.</p>
+
+      <div class="sub-label">Platform (webapp)</div>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <div class="code-content">vi /data/rke2-artifacts/ansible/onprem_deployment/roles/platform/vars/main.yaml</div>
+      </div>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">set image_tag1 to</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <div class="code-content">image_tag1: "<span class="placeholder" id="ph-platform-2">&lt;PLATFORM_TAG&gt;</span>"</div>
+      </div>
+
+      <div class="sub-label">Impala UI</div>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <div class="code-content">vi /data/rke2-artifacts/ansible/onprem_deployment/roles/impala-ui/vars/main.yaml</div>
+      </div>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">set image_tag1 to</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <div class="code-content">image_tag1: "<span class="placeholder" id="ph-impala-ui-2">&lt;IMPALA_UI_TAG&gt;</span>"</div>
+      </div>
+
+      <div class="sub-label">Impala API</div>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <div class="code-content">vi /data/rke2-artifacts/ansible/onprem_deployment/roles/impala-api/vars/main.yaml</div>
+      </div>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">set image_tag1 to</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <div class="code-content">image_tag1: "<span class="placeholder" id="ph-impala-api-2">&lt;IMPALA_API_TAG&gt;</span>"</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Step 7 -->
+    <div class="step" id="step7">
+      <div class="step-header">
+        <div class="step-num">7</div>
+        <div class="step-title">Run the Upgrade</div>
+      </div>
+      <p class="step-desc">Run each command separately and wait for <span class="inline-cmd" style="color:#e2e8f8">status: finished</span> before running the next one.</p>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">bash — navigate to ansible</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <div class="code-content">cd /data/rke2-artifacts/ansible/onprem_deployment/</div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">bash — upgrade impala-api</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <div class="code-content">python upgrade_applications.py --deployment_name impala-api --redeploy_only True</div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">bash — upgrade impala-ui</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <div class="code-content">python upgrade_applications.py --deployment_name impala-ui --redeploy_only True</div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">bash — upgrade platform</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <div class="code-content">python upgrade_applications.py --deployment_name platform --redeploy_only True</div>
+      </div>
+
+      <div class="note warning">⚠ If you get a "Kubernetes cluster unreachable" error, the kubectl context was reset. Run this and retry:
+<span class="inline-cmd">kubectl config use-context default</span></div>
+
+      <div class="note info">ℹ If helm times out with "context deadline exceeded", the pod may have come up anyway. Check with:
+<span class="inline-cmd">kubectl get pods -n impala-api</span>
+If the pod shows <span class="inline-cmd">Ready: 1/1</span>, the upgrade succeeded — continue to the next command.</div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Step 8 -->
+    <div class="step" id="step8">
+      <div class="step-header">
+        <div class="step-num">8</div>
+        <div class="step-title">Verify Running Pods</div>
+      </div>
+      <p class="step-desc">Confirm all pods are running with the correct images.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">bash — pod status</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <div class="code-content">kubectl get pods -n ivix-ui
+kubectl get pods -n impala-api
+kubectl get pods -n impala-ui</div>
+      </div>
+      <div class="code-block">
+        <div class="code-header"><span class="code-label">bash — verify image tags</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <div class="code-content">kubectl get pods -n ivix-ui -o jsonpath='{.items[*].spec.containers[*].image}' && echo
+kubectl get pods -n impala-api -o jsonpath='{.items[*].spec.containers[*].image}' && echo
+kubectl get pods -n impala-ui -o jsonpath='{.items[*].spec.containers[*].image}' && echo</div>
+      </div>
+      <div class="checklist">
+        <div class="check-item"><span class="check-icon">✓</span> platform pod shows tag <span class="placeholder" id="ph-platform-3" style="margin-left:4px">&lt;PLATFORM_TAG&gt;</span></div>
+        <div class="check-item"><span class="check-icon">✓</span> impala-api pods (×2) show tag <span class="placeholder" id="ph-impala-api-3" style="margin-left:4px">&lt;IMPALA_API_TAG&gt;</span></div>
+        <div class="check-item"><span class="check-icon">✓</span> impala-ui pod shows tag <span class="placeholder" id="ph-impala-ui-3" style="margin-left:4px">&lt;IMPALA_UI_TAG&gt;</span></div>
+      </div>
+      <div class="note info">ℹ Impala UI is accessible at: <span class="inline-cmd">http://<span id="ph-env-url">10.60.16.11</span>:30300</span></div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  function val(id) { return document.getElementById(id).value.trim(); }
+
+  function ph(id, text) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (text) {
+      el.textContent = text;
+      el.style.color = 'var(--green)';
+      el.style.fontStyle = 'normal';
+    } else {
+      el.textContent = id.includes('version') ? '<VERSION>' :
+                       id.includes('platform') ? '<PLATFORM_TAG>' :
+                       id.includes('impala-ui') ? '<IMPALA_UI_TAG>' : '<IMPALA_API_TAG>';
+      el.style.color = '#a78bfa';
+      el.style.fontStyle = 'italic';
+    }
+  }
+
+  function markFilled(inputId) {
+    const el = document.getElementById(inputId);
+    if (el.value.trim()) el.classList.add('filled');
+    else el.classList.remove('filled');
+  }
+
+  function update() {
+    const env  = val('cfg-env');
+    const ver  = val('cfg-version');
+    const api  = val('cfg-impala-api');
+    const ui   = val('cfg-impala-ui');
+    const plat = val('cfg-platform');
+
+    document.getElementById('env-display').textContent = env ? `⬡ ${env}` : '⬡ No environment configured';
+
+    ['ph-version-1','ph-version-2','ph-version-3','ph-version-4'].forEach(id => ph(id, ver));
+
+    ph('ph-platform-1', plat); ph('ph-platform-2', plat); ph('ph-platform-3', plat); ph('ph-platform-ex', plat);
+    ph('ph-impala-ui-1', ui);  ph('ph-impala-ui-2', ui);  ph('ph-impala-ui-3', ui);  ph('ph-impala-ui-ex', ui);
+    ph('ph-impala-api-1', api); ph('ph-impala-api-2', api); ph('ph-impala-api-3', api); ph('ph-impala-api-ex', api);
+
+    document.getElementById('ph-env-url').textContent = env || '10.60.16.11';
+    ['cfg-env','cfg-version','cfg-impala-api','cfg-impala-ui','cfg-platform'].forEach(markFilled);
+  }
+
+  function goTo(id, el) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function getPlainText(el) {
+    // Walk the DOM and collect only text, skipping HTML tags
+    let text = '';
+    el.childNodes.forEach(node => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        text += node.textContent;
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        text += getPlainText(node);
+      }
+    });
+    return text;
+  }
+
+  function copyCode(btn) {
+    const block = btn.closest('.code-block');
+    const content = block.querySelector('.code-content');
+    const text = getPlainText(content).trim();
+
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copy';
+        btn.classList.remove('copied');
+      }, 2000);
+    }).catch(() => {
+      // Fallback for environments that block clipboard API
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btn.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+</script>
+
+</body>
+</html>
